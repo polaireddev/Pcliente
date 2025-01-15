@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="imagen"></div>
+
+    <script>
+        //Para hacerlo lo más sencillo posible, utilizaré estas dos variables globales en 
+        //vez de pasar parámetros       
+        let datoAlbums;
+        let datoUsers;
+
+
+
+
+        function getDataFromAPI(url) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        resolve(xhr.response);
+                    } else {
+                        reject("Se ha producido un error " + xhr.status + ": " + xhr.statusText);
+                    }
+                };
+                xhr.onerror = function () {
+                    reject("Se ha producido un error " + xhr.status + ": " + xhr.statusText);
+                };
+                xhr.send();
+            });
+        }
+
+        getDataFromAPI('https://jsonplaceholder.typicode.com/albums')
+            .then(data => {
+                // maneja los datos devueltos
+                let datos = JSON.parse(data);
+                for (let i in datos) {
+                    if (datos[i].title == "quos omnis officia") {
+                        console.log(datos[i]);
+                        datoAlbums = datos[i].userId;
+                        return getDataFromAPI('https://dummyjson.com/users');
+                    }
+                }
+            })
+            .then(data => {
+                // maneja los datos devueltos
+                let datos = JSON.parse(data);
+                for (let i in datos.users) {
+                    if (datos.users[i].id == datoAlbums) {
+                        console.log(datos.users[i]);
+                        datoUsers = datos.users[i].age;
+                        return getDataFromAPI('https://jsonplaceholder.typicode.com/photos');
+                    }
+                }
+            })
+            .then(data => {
+                // maneja los datos devueltos
+                let datos = JSON.parse(data);
+                for (let i in datos) {
+                    if (datos[i].id == datoUsers) {
+                        console.log(datos[i]);
+                        dato = `<img src=${datos[i].url}>`;
+                        document.getElementById("imagen").innerHTML = dato;
+                    }
+                }
+            })
+            .catch(error => {
+                // maneja el error
+                console.log(error);
+            });
+
+
+
+    </script>
+</body>
+
+</html>

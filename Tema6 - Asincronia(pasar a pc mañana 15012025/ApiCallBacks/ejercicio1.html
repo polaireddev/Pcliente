@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+    <script>
+        function peticion(url, callback){//funcion que realiza una petición HTTP Get a una URL
+            let xhr= new XMLHttpRequest(); //Objeto para controlar la comunicacion con el servidor
+            xhr.addEventListener("load", ()=>{ //antes de enviar la peticion configuramos con un gestor de eventos para llamar a otra funcion( en este caso la funcion callback funciona como un filtro)
+                if(xhr.status==200){ //se ejecuta cuando la respuesta este lista (==200)
+                    callback(xhr); //cuando este lista llama a la funcion, es decir aseguramosq se llame justo despues de obetner la respuesta del servidor
+                }else console.log(`Error en la respuesta recibida. Código de error: ${xhr.status} - ${xhr.statusText} `) //si hay error
+            })
+
+            xhr.addEventListener("error",()=>{
+                console.log(`Error de respuesta ${xhr.status} - ${xhr.statusText}`);
+            })
+
+
+
+            //esta esla verdadera configuracion de la solicitud
+            xhr.open("GET", url);  //configura la solicitud HTTP, pero no la envía.
+
+            xhr.send(); //envia la peticion al servidor
+        }
+       
+
+        function gestionarRespuesta(xhr){ //para procesar la peticion recibida
+            const respuesta= JSON.parse(xhr.responseText); //convierte la respuesta JSON  en obejto de JS // parse: cadean Js -> obj Js
+
+            respuesta.forEach(persona => { //recorre a la personas y filtra según lo que se necesite 
+                if(persona.username==="Kamren") console.log(persona)
+                
+            });
+        }
+
+
+        
+        peticion("https://jsonplaceholder.typicode.com/users", gestionarRespuesta);
+
+
+/*
+//200 peticion existosa, 404 recurso no encontroado, 500 error servidor
+
+//eventos: load, error(cliente envia peticion pero no recibe respuesta), progress(muestra el progreso de la descarga en tiempo real), abort(peticon se cancela manualmente)
+
+status y statusText= propiedad XMLHttpRequest que almacena el codigo estado HTTP devuelto por el servidor(una mas descriptiva que la otra)
+
+
+Usa xhr.responseText para obtener los datos reales devueltos por el servidor (como un JSON, HTML, o texto plano).
+Usa xhr.statusText para obtener una descripción legible del estado de la respuesta HTTP (como "OK", "Not Found", etc.).
+
+
+JSON.parse= JSON -> objeto JS
+JSON.stringify= objeto JS -> JSON
+*/
+        
+    </script>
+
+    
+    
+</body>
+</html>

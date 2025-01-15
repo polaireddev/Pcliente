@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function peticion(url, callback){
+            let xhr= new XMLHttpRequest();
+            xhr.addEventListener("load", function(){ //importante si hago funcion flecha no fucniona con this.response, pero si con xhr.response
+                if(xhr.status==200){
+                    callback(this.response);
+
+                }else{
+                     console.log(`Error en la respuesta recibida. Código de error: ${xhr.status} - ${xhr.statusText} `) //si hay error
+                }
+            })
+
+            xhr.addEventListener("error",()=>{
+                console.log(`Error de respuesta ${xhr.status} - ${xhr.statusText}`);
+            })
+
+            xhr.open("GET", url);
+
+            xhr.send();
+        }
+
+
+
+        function gestionarRespuesta(xhr){
+            const respuesta= JSON.parse(xhr); //JSON y lo pasamos un objetoJS
+            console.log(`Hay  ${respuesta.length} chistes de ChuckNorris`)
+        }
+
+
+
+        peticion("https://api.chucknorris.io/jokes/categories", gestionarRespuesta)
+    </script>
+    
+   
+</body>
+</html>

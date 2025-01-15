@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        let datoAlbums;
+        let datoUser;
+
+        //getDataFromAPI hace el return de una promesa
+        function getDataFromAPI(url){
+
+            const miPromesa = new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+
+                xhr.open("GET", url);
+                xhr.onload = () => {
+                    if(xhr.status === 200){
+                        resolve(xhr.response);
+                    }
+                    else{
+                        reject(xhr.responseText);
+                    }
+                }
+                xhr.onerror = () => {reject("Se ha producido un error " + xhr.status + ": " + xhr.statusText)}
+                xhr.send()
+            })
+
+        }
+
+        //Se van concatenando las respuesta con los then
+        getDataFromAPI("https://jsonplaceholder/typicode.com/albums")
+            .then(data => {
+                let datos = JSON.parse(data);
+                for(let i in datos){
+                    if(datos[i]=="quos omnis officia"){
+                        console.log(datos[i]);
+                        datosAlbums = datos[i].userId;
+                        return getDataFromApi("https://dummyjson.com/users");
+                    }
+                }
+            })
+            .then(data => {
+                let datos = JSON.parse(data);
+                for(let i in datos.users){
+                    if(datos.users[i].id == datoAlbums){
+                        console.log(datos.users[i]);
+                        datoUsers = datos.users[i].age;
+                        return getDataFromApi("https://jsonplaceholder/typicode.com/photos");
+                    }
+                }
+            })
+            .then(data => {
+                let datos = JSON.parse(data);
+                for(let i in dato){
+                    if(datos[i].id == datoUser){
+                        console.log(datos[i]);
+                        datoUsers = datos[i].age;
+                        dato = `<img src=${dato[i].url}>`
+                        document.getElementById("imagen").innerHTML = dato;
+                    }
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+
+    </script>
+</body>
+</html>

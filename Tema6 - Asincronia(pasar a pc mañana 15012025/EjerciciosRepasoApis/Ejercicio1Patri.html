@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function getDataFromAPI(url, callback) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+
+            
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    callback(this.response);
+                } else {
+                    console.log(
+                        "Se ha producido un error " + xhr.status + ": " + xhr.statusText
+                    );
+                }
+            };
+            xhr.onerror = function () {
+                console.log(
+                    "Se ha producido un error " + xhr.status + ": " + xhr.statusText
+                );
+            };
+            xhr.send();
+        }
+
+        function gestionarRespuesta(data) {
+            const respuesta = JSON.parse(data);
+
+            console.log(
+                "Hay registradas " +
+                respuesta.length +
+                " categorías de chistes sobre Chuck Norris"
+            );
+        }
+
+        getDataFromAPI(
+            "https://api.chucknorris.io/jokes/categories",
+            gestionarRespuesta
+        );
+    </script>
+</body>
+
+</html>

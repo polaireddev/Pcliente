@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="imagen"></div>
+    <script>
+        function peticion(url, callback) {
+            let xhr = new XMLHttpRequest();
+            xhr.addEventListener("load", function () {
+                //importante si hago funcion flecha no fucniona con this.response, pero su con xhr.response
+                if (xhr.status == 200) {
+                    callback(this.response);
+                } else {
+                    console.log(
+                        `Error en la respuesta recibida. Código de error: ${xhr.status} - ${xhr.statusText} `
+                    ); //si hay error
+                }
+            });
+
+            xhr.addEventListener("error", () => {
+                console.log(`Error de respuesta ${xhr.status} - ${xhr.statusText}`);
+            });
+
+            xhr.open("GET", url);
+
+            xhr.send();
+        }
+
+        let userIdAlbum, edad;
+
+        function gestionarRespuestaAlbum(data) {
+            const respuesta = JSON.parse(data); //JSON y lo pasamos un objetoJS
+            let albumEncontrado = "";
+            respuesta.forEach((album) => {
+                //esto se puede hacer con find(funcion flecha - pasandolelafuncionn por parametro)
+                if (album.title == "quos omnis officia") {
+                    albumEncontrado = album;
+                }
+            });
+
+            if (albumEncontrado) {
+                console.log("Llamada Album");
+                console.log(albumEncontrado); // si esto lo pongo con template literals me muestra object object
+                console.log(`Objeto con title: ${albumEncontrado.title}`);
+                console.log(`"UserId ${albumEncontrado.userId}`);
+                userIdAlbum = albumEncontrado.userId;
+            } else console.log("No se ha encontrado ningun album");
+
+            return albumEncontrado.userId;
+        }
+
+        /*
+          albumEncontrado= respuesta.find(album=>album.title==="quos onmis officia") //es decir buscamos en la respuesta con el metodo find
+  
+          esto es lo mismo que(es una funcion callback);
+  
+          function buscartexto(objeto){
+          objeto.title==="quos onmis officia"}
+      
+          objetoEncontrado=data.find(buscartexto);
+          console.log(objeto encontrado);
+          console.log(objectoEncontrado.userId);
+          console.log(objetoEncontrado.title)
+  
+          
+          }
+  
+  
+          */
+
+        //USER
+
+        function gestionarRespuestaUser(data) {
+            let userEncontrado = "";
+
+            const respuesta = JSON.parse(data); //JSON y lo pasamos un objetoJS
+            const listArrayUser = respuesta.users; // accedo a los usuaurios
+            listArrayUser.forEach((user) => {
+                if (user.id == userIdAlbum) {
+                    userEncontrado = user;
+                }
+            });
+
+            if (userEncontrado) {
+                console.log("Llamada User");
+                console.log(userEncontrado); // si esto lo pongo con template literals me muestra object object
+                console.log(`"UserId ${userEncontrado.id}`);
+                console.log(`Edad ${userEncontrado.age}`);
+                edad = userEncontrado.age;
+                peticion("https://jsonplaceholder.typicode.com/photos", mostrarPhoto);//he hehco trampa lo he metido aqui dentro
+            } else{
+                console.log("No se ha encontraod ningun usuario")
+            }
+        }
+
+        function mostrarPhoto(data) {
+            const respuesta = JSON.parse(data); //JSON y lo pasamos un objetoJS
+            let datoEncontrado="";
+            respuesta.forEach((photo) => {
+                if (photo.id== Number(edad)) {
+                    datoEncontrado = photo;
+                }
+            });
+
+            if (datoEncontrado) {
+                console.log("Llamada Photo");
+                console.log(datoEncontrado); // si esto lo pongo con template literals me muestra object object, es decir, si lo concateno al menos con template literals no muestra el objeto en si, sino que me muestra q es un objeto y ya
+                console.log(`"Dato Encontrado ${datoEncontrado.id}`);
+                dato = `<img src="${datoEncontrado.url}">`;
+                document.getElementById("imagen").innerHTML = dato;
+
+            } else console.log("No se ha encontrado ningun dato");
+            
+        }
+
+        peticion("https://jsonplaceholder.typicode.com/albums", gestionarRespuestaAlbum
+        );
+        peticion("https://dummyjson.com/users", gestionarRespuestaUser);
+        // peticion("https://jsonplaceholder.typicode.com/photos", mostrarPhoto);
+  
+    </script>
+</body>
+
+</html>

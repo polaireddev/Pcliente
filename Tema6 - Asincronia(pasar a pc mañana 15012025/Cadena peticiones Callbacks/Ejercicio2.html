@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /**
+         * Función genérica para realizar peticiones HTTP GET.
+         * @param {string} url - La URL a la que se realiza la petición.
+         * @param {function} callback - Función que se ejecuta cuando la respuesta está disponible.
+         */
+        function peticion(url, callback) {
+            let xhr = new XMLHttpRequest(); // Crear una nueva instancia de XMLHttpRequest.
+
+            // Escuchamos cuando la carga se completa exitosamente.
+            xhr.addEventListener("load", function () {
+                if (xhr.status == 200) { 
+                    // Si el código de estado es 200, llamamos al callback con la respuesta.
+                    callback(this.response);
+                } else {
+                    // Si ocurre un error en la respuesta, lo mostramos en consola.
+                    console.log(`Error en la respuesta recibida. Código de error: ${xhr.status} - ${xhr.statusText}`);
+                }
+            });
+
+            // Escuchamos errores generales en la solicitud.
+            xhr.addEventListener("error", () => {
+                console.log(`Error de respuesta ${xhr.status} - ${xhr.statusText}`);
+            });
+
+            xhr.open("GET", url); // Abrimos una conexión GET con la URL proporcionada.
+            xhr.send(); // Enviamos la solicitud.
+        }
+
+        /**
+         * Función para gestionar la respuesta de la API de albums.
+         * Busca un álbum específico basado en su título.
+         * @param {string} data - La respuesta de la API en formato JSON.
+         * @param {function} callback - Función a ejecutar con el userId del álbum encontrado.
+         */
+        function gestionarRespuestaAlbum(data, callback) {
+            const respuesta = JSON.parse(data); // Convertimos la respuesta JSON en un objeto JavaScript.
+            const albumEncontrado = respuesta.find(album => album.title === "quos omnis officia");
+
+            if (albumEncontrado) { 
+                // Si encontramos el álbum con el título especificado:
+                console.log(albumEncontrado); // Mostramos el objeto completo del álbum.
+                console.log(`Objeto con title: ${albumEncontrado.title}`); // Mostramos el título del álbum.
+                console.log(`UserId: ${albumEncontrado.userId}`); // Mostramos el userId asociado al álbum.
+                callback(albumEncontrado.userId); // Pasamos el userId al siguiente paso (segunda API).
+            } else {
+                // Si no encontramos el álbum:
+                console.log("No se ha encontrado ningún álbum con el título especificado.");
+            }
+
+            
+        }
+
+        /**
+         * Función para gestionar la respuesta de la API de usuarios.
+         * Busca un usuario basado en su id.
+         * @param {string} data - La respuesta de la API en formato JSON.
+         * @param {number} userId - El ID del usuario que buscamos.
+         */
+        function gestionarRespuestaUser(data, userId) {
+            const respuesta = JSON.parse(data); // Convertimos la respuesta JSON en un objeto JavaScript.
+            const userEncontrado = respuesta.users.find(user => user.id === userId);
+
+            if (userEncontrado) {
+                // Si encontramos el usuario con el id especificado:
+                console.log(userEncontrado); // Mostramos el objeto completo del usuario.
+                console.log(`Objeto con id: ${userEncontrado.id}`); // Mostramos el id del usuario.
+                console.log(`Age: ${userEncontrado.age}`); // Mostramos la edad del usuario.
+            } else {
+                // Si no encontramos el usuario:
+                console.log("No se ha encontrado ningún usuario con ese ID.");
+            }
+        }
+
+        /**
+         * FLUJO DE DATOS:
+         * 1. Realizamos la primera petición a la API de albums.
+         * 2. En la respuesta, buscamos el álbum con título "quos omnis officia".
+         * 3. Extraemos el userId de ese álbum y lo pasamos a una función callback.
+         * 4. Usamos el userId para realizar una segunda petición a la API de usuarios.
+         * 5. En la respuesta de usuarios, buscamos el usuario con id igual al userId.
+         * 6. Mostramos los datos del usuario encontrado, incluyendo su edad.
+         */
+
+        // Comenzamos con la primera petición.
+        peticion("https://jsonplaceholder.typicode.com/albums", (data) => {
+            // Gestionamos la respuesta de la primera API (albums).
+            gestionarRespuestaAlbum(data, (userId) => {
+                // Realizamos la segunda petición dentro del callback.
+                peticion("https://dummyjson.com/users", (data) => {
+                    // Gestionamos la respuesta de la segunda API (users).
+                    gestionarRespuestaUser(data, userId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

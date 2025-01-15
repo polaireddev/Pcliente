@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+    <script>
+        function peticion(url, callback){
+            let xhr= new XMLHttpRequest(); 
+            xhr.addEventListener("load", ()=>{ 
+                if(xhr.status==200){ 
+                    callback(xhr); 
+                }else console.log(`Error en la respuesta recibida. Código de error: ${xhr.status} - ${xhr.statusText} `) 
+            })
+
+
+
+           
+            xhr.open("GET", url); 
+
+            xhr.send(); 
+        }
+       
+
+        function gestionarRespuesta(xhr){ 
+            const respuesta= JSON.parse(xhr.responseText); 
+
+            respuesta.forEach(persona => { 
+                if(persona.id===7) console.log(persona)
+                
+            });
+        }
+
+
+        peticion("https://jsonplaceholder.typicode.com/users", gestionarRespuesta);
+
+
+
+        
+    </script>
+
+    
+    
+</body>
+</html>

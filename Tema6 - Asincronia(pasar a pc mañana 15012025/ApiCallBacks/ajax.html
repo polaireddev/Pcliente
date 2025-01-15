@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+
+function peticion(url, callback){
+
+
+        let xhr = new XMLHttpRequest();
+
+        //1forma
+        //controlamos la respuesta de la peticion
+        /*
+        xhr.onload = function tramitarRespuesta() {
+            console.log(xhr.responseText);
+        };
+        */
+        //2ndafroma
+        xhr.addEventListener("load", ()=>{
+
+            if(xhr.status==200){
+                callback(xhr);
+            }
+            else console.log(`Error en la respuesta recibida. Código de error: ${xhr.status} - ${xhr.statusText}`);
+            ;
+
+           
+        })
+
+        
+
+
+        //funcion error
+/*
+        xhr.onerror= function(){
+             console.log(`No hay respuesta del server. Código de error: ${xhr.status} - ${xhr.statusText}`)
+
+        }
+*/
+        xhr.addEventListener("error", ()=>{
+            console.log(`No hay respuesta del server. Código de error: ${xhr.status} - ${xhr.statusText}`)
+
+        })
+        
+
+
+        //preparamos la peticion
+        xhr.open("GET", url);
+
+        //envaimos la peticion
+        xhr.send();
+    }
+
+
+
+   peticion( "https://jsonplaceholder.typicode.com/users", gestionarRespuesta);
+
+
+
+
+   function gestionarRespuesta(xhr){
+
+const respuesta = JSON.parse(xhr.responseText);
+
+respuesta.forEach((persona)=>{
+    if(persona.username == "Kamren") console.log(persona);
+})
+
+}
+
+
+
+
+    /*
+
+    function buscarUser($array, $user){
+        for (const x of array) {
+            if(x.username==$user){
+                return x;
+            }
+            
+        }
+    }
+
+
+    
+
+    */
+    </script>
+</body>
+
+</html>
