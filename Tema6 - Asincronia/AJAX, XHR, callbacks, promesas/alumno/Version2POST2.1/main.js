@@ -1,3 +1,5 @@
+/* aqui lo unico que cambia es el como enviamos los datos, ya que se envian el cuerpo de la solicitud*/
+
 function recogerDatos() { //funcion para obtener los datos de form
     const nombre = document.getElementById("nombre").value;
     const apellido = document.getElementById("apellido").value;
@@ -13,8 +15,6 @@ function recogerDatos() { //funcion para obtener los datos de form
 
     */
 
-
-
     const personaJson = JSON.stringify(persona); //objeto js -> json
 
 
@@ -28,23 +28,29 @@ function recogerDatos() { //funcion para obtener los datos de form
 
 }
 
-function peticion(url, data, callback) { //la peticion  HTTP que vamos a hacer, pasando la url, los datos y una funcion 
+
+//Esto tambien es lo que cambia: pasando la url, los datos!!! y la callback// como hemos dicho los datos hay que pasarlos en el cuerpo de la solicitud
+function peticion(url, data, gestionarRespuesta) { 
     let xhr = new XMLHttpRequest();
-    xhr.addEventListener("load", () => {
+
+    xhr.open("POST", url); 
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); //esto es lo q cambia, al ser Post hay q definir el tipo de contenido de los datos q va ser enviado en el cuerpo de la solicitud
+
+    xhr.addEventListener("load", () => { // definimos como manejar la respuesta
         if (xhr.status == 200) {
-            callback(xhr) // esta vez la callback es la funcion peticion
+            gestionarRespuesta(xhr) 
             console.log(`${xhr.status} - ${xhr.statusText}`);
         } else {
             console.log(`Error: ${xhr.status} - ${xhr.statusText}`)
         }
 
-
-
-
     });
+    xhr.addEventListener("error", ()=>{ // por si la peticion falla
+        console.log("Error en la peticion")
 
-    xhr.open("POST", url);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); 
+    })
+
+    
     xhr.send(data); 
 
 
@@ -52,9 +58,9 @@ function peticion(url, data, callback) { //la peticion  HTTP que vamos a hacer, 
 
 function enviarDatos() {
     const personaJson = recogerDatos();
-    const data= `persona=${encodeURIComponent(personaJson)}`; // al ser un dato urlencoded hay q determinar el nombre del post que va recibir el archivo php
+    const data= `persona=${personaJson}`; // al ser un dato urlencoded hay q determinar el nombre del post que va recibir el archivo php
     peticion(`guardarPersonas.php`, data, xhr => {
-        console.log(`${xhr.responseText}`)// obtengo los datos reales del servidor
+        console.log(`${xhr.responseText}`)
     });
 }
 

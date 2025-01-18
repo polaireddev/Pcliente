@@ -32,7 +32,7 @@ function peticion(url, gestionarRespuesta) {
     let xhr = new XMLHttpRequest();
     xhr.addEventListener("load", () => {
         if (xhr.status == 200) {
-            gestionarRespuesta(xhr)
+            gestionarRespuesta(xhr)//respusta, tambien podria haberle asigndo tal nombre
             console.log(`${xhr.status} - ${xhr.statusText}`);
         } else {
             console.log(`Error: ${xhr.status} - ${xhr.statusText}`)
@@ -40,15 +40,22 @@ function peticion(url, gestionarRespuesta) {
 
     });
 
+    xhr.addEventListener("error", ()=>{ // por si la peticion falla
+        console.log("Error en la peticion")
+
+    })
+
     xhr.open("GET", url);
     xhr.send();
 
 }
 
+
+
 function enviarDatos() {
     const personaJson = recogerDatos();
-    peticion(`guardarPersonas.php?persona=${encodeURIComponent(personaJson)}`, xhr => { // en este caso le pasamos una¡¡funcion anonima!! 
-        console.log(`${xhr.responseText}`)
+    peticion(`guardarPersonas.php?persona=${encodeURIComponent(personaJson)}`, xhr => { // en este caso le pasamos una¡¡funcion anonima!! // xhr= respuesta
+        console.log(`${xhr.responseText}`);
     });
 
 

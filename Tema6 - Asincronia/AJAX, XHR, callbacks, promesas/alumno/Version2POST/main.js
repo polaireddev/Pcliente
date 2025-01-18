@@ -71,7 +71,7 @@ document.getElementById("personaForm").addEventListener("submit", (e) => {
 })
 
 /*
-aqui el funcionamiento es parecido que al de get, pero los datos a enviar se envian en la cabecera y no en la url , 
+aqui el funcionamiento es parecido que al de get, pero los datos a enviar se envian en el cuerop de la solicitud y no en la url , 
 por ello va ser otro parametro mas a la hora de llamar a la funcion peticon, donde le pasaremos la url, los datos
 y la callback que gestiona la respuesta
 
