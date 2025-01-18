@@ -30,11 +30,11 @@ function recogerDatos() { //funcion para obtener los datos de form
 
 }
 
-function peticion(url, data, callback) { //la peticion  HTTP que vamos a hacer, pasando la url, los datos y una funcion 
+function peticion(url, data, gestionarRespuesta) { //la peticion  HTTP que vamos a hacer, pasando la url, los datos y una funcion 
     let xhr = new XMLHttpRequest();
     xhr.addEventListener("load", () => {
         if (xhr.status == 200) {
-            callback(xhr) // esta vez la callback es la funcion peticion
+            gestionarRespuesta(xhr) // esta vez la callback es la funcion peticion
             console.log(`${xhr.status} - ${xhr.statusText}`);
         } else {
             console.log(`Error: ${xhr.status} - ${xhr.statusText}`)
@@ -52,11 +52,16 @@ function peticion(url, data, callback) { //la peticion  HTTP que vamos a hacer, 
 
 }
 
+
 function enviarDatos() {
     const personaJson = recogerDatos();
-    peticion(`guardarPersonas.php`, personaJson, xhr => {
+    const data = personaJson;
+    console.log(data)
+    peticion(`guardarPersonas.php`, data, xhr => { // igual, utilizamos una funcion anonima 
         console.log(`${xhr.responseText}`)// obtengo los datos reales del servidor
     });
+
+
 }
 
 
@@ -65,3 +70,9 @@ document.getElementById("personaForm").addEventListener("submit", (e) => {
     enviarDatos();
 })
 
+/*
+aqui el funcionamiento es parecido que al de get, pero los datos a enviar se envian en la cabecera y no en la url , 
+por ello va ser otro parametro mas a la hora de llamar a la funcion peticon, donde le pasaremos la url, los datos
+y la callback que gestiona la respuesta
+
+*/

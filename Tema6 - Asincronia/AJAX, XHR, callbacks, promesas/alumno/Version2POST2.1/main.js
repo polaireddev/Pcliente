@@ -1,7 +1,3 @@
-
-//ESTA VERSION RECOGEMOS PERSONA JSON GENERADA POR EL CLIENTE  ATRAVES DE PHP://INPUT
-//EN EL ARCHIVO PHP://INPUT
-
 function recogerDatos() { //funcion para obtener los datos de form
     const nombre = document.getElementById("nombre").value;
     const apellido = document.getElementById("apellido").value;
@@ -21,7 +17,7 @@ function recogerDatos() { //funcion para obtener los datos de form
 
     const personaJson = JSON.stringify(persona); //objeto js -> json
 
-    const personaUrlEncoded = `persona=${encodeURIComponent(JSON.stringify(persona))}`;
+
     return personaJson;
 
     /*
@@ -56,7 +52,7 @@ function peticion(url, data, callback) { //la peticion  HTTP que vamos a hacer, 
 
 function enviarDatos() {
     const personaJson = recogerDatos();
-    const data= `persona=${encodeURIComponent(personaJson)}`; // Codifico el JSON (personaJson) para que sea seguro incluirlo como parte de la URL
+    const data= `persona=${encodeURIComponent(personaJson)}`; // al ser un dato urlencoded hay q determinar el nombre del post que va recibir el archivo php
     peticion(`guardarPersonas.php`, data, xhr => {
         console.log(`${xhr.responseText}`)// obtengo los datos reales del servidor
     });
