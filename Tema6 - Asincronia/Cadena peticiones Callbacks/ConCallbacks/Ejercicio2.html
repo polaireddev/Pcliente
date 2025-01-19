@@ -7,10 +7,9 @@
 </head>
 <body>
     <script>
-        /**
-         * Función genérica para realizar peticiones HTTP GET.
-         * @param {string} url - La URL a la que se realiza la petición.
-         * @param {function} callback - Función que se ejecuta cuando la respuesta está disponible.
+        /*
+          Función genérica para realizar peticiones HTTP GET.
+         
          */
         function peticion(url, callback) {
             let xhr = new XMLHttpRequest(); // Crear una nueva instancia de XMLHttpRequest.
@@ -35,11 +34,10 @@
             xhr.send(); // Enviamos la solicitud.
         }
 
-        /**
+        /*
          * Función para gestionar la respuesta de la API de albums.
          * Busca un álbum específico basado en su título.
-         * @param {string} data - La respuesta de la API en formato JSON.
-         * @param {function} callback - Función a ejecutar con el userId del álbum encontrado.
+    
          */
         function gestionarRespuestaAlbum(data, callback) {
             const respuesta = JSON.parse(data); // Convertimos la respuesta JSON en un objeto JavaScript.
@@ -60,10 +58,7 @@
         }
 
         /**
-         * Función para gestionar la respuesta de la API de usuarios.
-         * Busca un usuario basado en su id.
-         * @param {string} data - La respuesta de la API en formato JSON.
-         * @param {number} userId - El ID del usuario que buscamos.
+       
          */
         function gestionarRespuestaUser(data, userId) {
             const respuesta = JSON.parse(data); // Convertimos la respuesta JSON en un objeto JavaScript.
@@ -80,14 +75,9 @@
             }
         }
 
-        /**
-         * FLUJO DE DATOS:
-         * 1. Realizamos la primera petición a la API de albums.
-         * 2. En la respuesta, buscamos el álbum con título "quos omnis officia".
-         * 3. Extraemos el userId de ese álbum y lo pasamos a una función callback.
-         * 4. Usamos el userId para realizar una segunda petición a la API de usuarios.
-         * 5. En la respuesta de usuarios, buscamos el usuario con id igual al userId.
-         * 6. Mostramos los datos del usuario encontrado, incluyendo su edad.
+        /*
+        FLUJO DE DATOS:
+        
          */
 
         // Comenzamos con la primera petición.
