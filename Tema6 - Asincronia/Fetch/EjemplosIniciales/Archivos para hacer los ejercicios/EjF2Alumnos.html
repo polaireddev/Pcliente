@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="mostrarTabla">Muestra el archivo JSON en forma de tabla</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Club</th>
+            </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+    </table>
+
+    <script>
+        /*
+      1. Hemos llamado a fetch() con la URL a la que queremos acceder como parámetro. Esta llamada nos devuelve una promesa.
+      2. El método then() de esa promesa nos entrega un objeto response.
+      3. A partir de este objeto llamamos al método json() para obtener el cuerpo de la respuesta. Este método json() nos devuelve otra promesa que se resolverá cuando se haya obtenido el contenido.
+      4. El método then() de esta segunda promesa recibe el cuerpo devuelto por la promesa anterior y hace un log de ella.
+      5. Hemos incluido un catch() por si se produce algún error
+          */
+
+        //fetch(url).then(cb1).then(cb2).then(cb3).catch(cb4).finally(cb5);
+        /*
+              fetch(url)
+              .then(cb1)
+              .then(cb2)
+              .then(cb3)
+              .catch(cb4)
+              .finally(cb5);
+                */
+
+        document.getElementById("mostrarTabla").addEventListener("click", (e) => {
+            e.preventDefault;
+            gestionarPeticion("Tabla.json");
+        });
+
+        function gestionarPeticion(url) {
+            fetch(url)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data)
+                    data.forEach((dato) => { 
+                        let fila= document.createElement("tr")
+                        let fila1= document.createElement("td");
+                        let fila2= document.createElement("td");
+                        let fila3= document.createElement("td");
+                        let fila4= document.createElement("td");
+
+                        fila1.innerHTML= dato.codigo;
+                        fila2.innerHTML= dato.nombre;
+                        fila3.innerHTML= dato.edad;
+                        fila4.innerHTML= dato.club;
+                        fila.appendChild(fila1);
+                        fila.appendChild(fila2);
+                        fila.appendChild(fila3);
+                        fila.appendChild(fila4);
+                        tabla.appendChild(fila);
+                   
+                    });
+                })
+                .catch(error=> console.log("Error"+error));
+                
+        }
+    </script>
+</body>
+
+</html>
+

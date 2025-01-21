@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    
+        <button id="mostrarTexto">Muestra el archivo de texto</button>
+        <div id="contenido"></div>
+        <div id="contenido1"></div>
+
+    
+ 
+
+    <script>
+/*
+1. Hemos llamado a fetch() con la URL a la que queremos acceder como parámetro. Esta llamada nos devuelve una promesa.
+2. El método then() de esa promesa nos entrega un objeto response.
+3. A partir de este objeto llamamos al método text() para obtener el cuerpo de la respuesta. Este método text() nos devuelve otra promesa que se resolverá cuando se haya obtenido el contenido.
+4. El método then() de esta segunda promesa recibe el cuerpo devuelto por la promesa anterior y lo muestra por pantalla.
+5. Hemos incluido un catch() por si se produce algún error
+*/
+        //fetch(url).then(cb1).then(cb2).then(cb3).catch(cb4).finally(cb5);
+            /*
+            fetch(url)
+            .then(cb1)
+            .then(cb2)
+            .then(cb3)
+            .catch(cb4)
+            .finally(cb5);
+            */
+
+    document.getElementById("mostrarTexto").addEventListener("click", e=>{
+    e.preventDefault;
+    gestionarPeticion("texto.txt") //funcion mia
+    gestionarPeticion2("texto.txt") //funcion navarrete
+
+
+    
+   
+})
+
+
+function gestionarPeticion(url){
+    fetch(url)
+    .then(response=>
+        response.text() //si pongo llaves sale undefined, por lo que hay q hacer return
+    )
+    .then(data=>{
+        console.log(data)
+        document.getElementById("contenido").innerHTML= data
+});
+
+    }
+
+
+//funcion navarrete
+function gestionarPeticion2(){
+    fetch("texto.txt")
+    .then(response =>{
+        if(response.ok) return (response.text()); //importante poner ()
+        else throw new Error("Archivo no encontrado o no tienes permisos" + response.status )
+    })
+    .then(data2 =>{
+        console.log(data2);
+        document.getElementById("contenido1").innerHTML= data2
+        
+    })
+    .catch(error => console.log("Se ha producido un error" + error))
+}
+
+
+    </script>
+</body>
+
+</html>
