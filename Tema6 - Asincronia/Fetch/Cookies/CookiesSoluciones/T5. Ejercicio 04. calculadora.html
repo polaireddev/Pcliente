@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8"/>
+<script>
+//Con esta variable comprobamos si hay algún dato ya en la pantalla
+activar=false;
+</script>
+</head>
+
+<body>
+
+<table border="1">
+<form>
+  <tr>
+    <td><input type="text" name="pantalla"></td>
+  </tr>
+  <tr>
+    <td><input type="button" name="tecla" value="7" onclick="if (activar==false) form.pantalla.value+=7; 
+							     else {form.pantalla.value='7';activar=false;}">
+ <input type="button" name="tecla" value="8" onclick="form.pantalla.value+=8">
+ <input type="button" name="tecla" value="9" onclick="form.pantalla.value+=9">
+<input type="button" name="tecla" value="+" onclick="form.pantalla.value+='+'"></td>
+  </tr>
+ <tr>
+    <td><input type="button" name="tecla" value="4"  onclick="form.pantalla.value+=4">
+ <input type="button" name="tecla" value="5" onclick="form.pantalla.value+=5">
+ <input type="button" name="tecla" value="6" onclick="form.pantalla.value+=6">
+<input type="button" name="tecla" value="-" onclick="form.pantalla.value+='-'"></td>
+  </tr>
+ <tr>
+    <td><input type="button" name="tecla" value="1" 
+onclick="form.pantalla.value+=1">
+ <input type="button" name="tecla" value="2" onclick="form.pantalla.value+=2">
+ <input type="button" name="tecla" value="3" onclick="form.pantalla.value+=3">
+<input type="button" name="tecla" value="x" onclick="form.pantalla.value+='*'"></td>  
+  </tr>
+ <tr>
+     <td><input type="button" name="tecla" value="c" 
+onclick="form.pantalla.value=''">
+ <input type="button" name="tecla" value="0" onclick="form.pantalla.value+=0">
+ <input type="button" name="tecla" value="=" onclick="activar=true; form.pantalla.value=eval(form.pantalla.value)">
+<input type="button" name="tecla" value="/" onclick="form.pantalla.value+='/'"></td>  
+  </tr>
+</form>
+</table>
+
+</body>
+</html>
+

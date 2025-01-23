@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8"/>
+<script>
+activar=false;
+
+function pulsador(boton)
+{
+
+  switch (boton)
+  {
+    case '0':
+    case '1':
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+	if (activar==false) marco.pantalla.value+=boton;
+        else {marco.pantalla.value=boton;activar=false;}
+        break;
+
+    case '=':
+        activar=true; 
+        marco.pantalla.value=eval(marco.pantalla.value);
+        break;
+
+    case 'c':
+	activar=false;
+	marco.pantalla.value=''
+	break;
+
+    case '*':
+    case '/':
+    case '+':
+    case '-':
+ 	activar=false;
+ 	marco.pantalla.value+=boton;
+	break;
+  }
+}
+</script>
+</head>
+
+<body>
+
+<table border="1">
+<form name=marco>
+  <tr>
+      <td><input type="text" name="pantalla"></td>
+  </tr>
+
+  <tr>
+      <td>
+          <input type="button" name="tecla" value="7" onclick="pulsador('7');">
+          <input type="button" name="tecla" value="8" onclick="pulsador('8');">
+          <input type="button" name="tecla" value="9" onclick="pulsador('9');">
+          <input type="button" name="tecla" value="+" onclick="pulsador('+');">
+      </td>
+  </tr>
+
+ <tr>
+      <td> 
+          <input type="button" name="tecla" value="4" onclick="pulsador('4');">
+          <input type="button" name="tecla" value="5" onclick="pulsador('5');">
+          <input type="button" name="tecla" value="6" onclick="pulsador('6');">
+          <input type="button" name="tecla" value="-" onclick="pulsador('-');">
+      </td>
+  </tr>
+
+ <tr>
+      <td>
+           <input type="button" name="tecla" value="1" onclick="pulsador('1');">
+           <input type="button" name="tecla" value="2" onclick="pulsador('2');">
+           <input type="button" name="tecla" value="3" onclick="pulsador('3');">
+           <input type="button" name="tecla" value="x" onclick="pulsador('*');">
+      </td>  
+  </tr>
+
+ <tr>
+     <td>
+           <input type="button" name="tecla" value="c" onclick="pulsador('c');">
+           <input type="button" name="tecla" value="0" onclick="pulsador('0');">
+           <input type="button" name="tecla" value="=" onclick="pulsador('=');">
+           <input type="button" name="tecla" value="/" onclick="pulsador('/');">
+     </td>  
+  </tr>
+</form>
+</table>
+
+</body>
+</html>
+

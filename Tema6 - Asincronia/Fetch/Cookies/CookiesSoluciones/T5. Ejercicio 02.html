@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Información sobre eventos</title>
+
+<!--
+<style type="text/css">
+body {font-family: arial, helvetica;}
+#info {width:160px; border:thin solid silver; padding:.5em; position:fixed;}
+#info h1 {margin: 0;}
+</style>
+-->
+
+<script type="text/javascript">
+function muestraInformacion(elEvento) {
+      var evento = elEvento || window.event;
+ 
+      document.getElementById("info").innerHTML= 'Está en la posición: '+ evento.clientX+', '+evento.clientY;
+
+}
+
+document.onmousemove = muestraInformacion;
+
+</script>
+</head>
+
+<body>
+<h1>El ratón</h1>
+<p id="info"></p>
+</body>
+</html>
+

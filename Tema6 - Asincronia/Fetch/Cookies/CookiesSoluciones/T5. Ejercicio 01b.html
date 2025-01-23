@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset = "UTF-8"/>
+</head>
+
+<body>
+<script>
+function muestraInformacion() {
+
+  document.write("La función tiene "+arguments.length+" argumentos");
+
+  var elEvento= arguments[0];
+
+  var evento = elEvento;
+
+//  var coordenadaX = evento.clientX;
+//  var coordenadaY = evento.clientY;
+//  alert("Has pulsado el ratón en la posición: " + coordenadaX + ", " + coordenadaY);
+}
+
+//document.onclick = muestraInformacion;
+</script>
+<button onclick="muestraInformacion();alert('Has clicao')">click me</button>
+</body>
+</html>
+

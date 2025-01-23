@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8"/>
+
+<script>
+
+function objFormulario(nombre, apellidos, dni, telefono, correo, sexo)
+{
+  this.nombre=nombre;
+  this.apellidos=apellidos;
+  this.dni=dni;
+  this.telefono=telefono;
+  this.correo=correo;
+  this.sexo=sexo;
+}
+
+
+DATOS = new Array();
+posicion =0;
+
+function guardarDatos(f)
+{
+
+  if (!validar()) return;
+
+  var sexo;
+  if (f.male.checked) sexo="male";
+  else sexo="female";
+
+  objeto=new objFormulario(f.nombre.value,f.apellidos.value,f.dni.value,f.telefono.value,f.correo.value,sexo);
+  
+  posicion=DATOS.push(objeto);
+  alert("Se han guardado "+(posicion)+" objetos");
+  posicion--;
+  
+}
+
+
+function siguiente(f)
+{
+  
+  if ((posicion+1)>=DATOS.length)
+  {
+     alert("No quedan más datos, ya has llegado al final");
+  }
+  else
+  {
+     posicion++;
+     f.nombre.value=DATOS[posicion].nombre;
+     f.apellidos.value=DATOS[posicion].apellidos;
+     f.dni.value=DATOS[posicion].dni;
+     f.telefono.value=DATOS[posicion].telefono;
+     f.correo.value=DATOS[posicion].correo;
+
+     if (DATOS[posicion].sexo=="male") f.male.checked=true
+     else f.female.checked=true;
+  }
+}
+
+function anterior(f)
+{
+  if (posicion<=0)
+  {
+     alert("No quedan más datos, ya has llegado al principio");
+  }
+  else
+  {
+     posicion--;
+     f.nombre.value=DATOS[posicion].nombre;
+     f.apellidos.value=DATOS[posicion].apellidos;
+     f.dni.value=DATOS[posicion].dni;
+     f.telefono.value=DATOS[posicion].telefono;
+     f.correo.value=DATOS[posicion].correo;
+
+     if (DATOS[posicion].sexo=="male") f.male.checked=true
+     else f.female.checked=true;
+  }
+}
+
+
+function borrarDATOS()
+{
+    while (DATOS.length>0) DATOS.pop();
+    posicion=0;
+}
+
+
+function getCookie(c_name)
+{
+var c_value = document.cookie;
+var c_start = c_value.indexOf(" " + c_name + "=");
+if (c_start == -1)
+  {
+  c_start = c_value.indexOf(c_name + "=");
+  }
+if (c_start == -1)
+  {
+  c_value = null;
+  }
+else
+  {
+  c_start = c_value.indexOf("=", c_start) + 1;
+  var c_end = c_value.indexOf(";", c_start);
+  if (c_end == -1)
+    {
+    c_end = c_value.length;
+    }
+  c_value = unescape(c_value.substring(c_start,c_end));
+  }
+return c_value;
+}
+
+function borrarCookie(c_name,value,exdays)
+{
+  setCookie(c_name,value,exdays);
+}
+
+function setCookie(c_name,value,exdays)
+{
+var exdate=new Date();
+exdate.setDate(exdate.getDate() + exdays);
+var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+document.cookie=c_name + "=" + c_value;
+}
+
+
+
+
+
+function objToString(obj)
+{
+  var cad=new String();
+
+  cad="{"+obj.nombre+","+obj.apellidos+","+obj.dni+","+obj.telefono+","+obj.correo+","+obj.sexo+"}";
+  return cad;
+}
+
+function arrToString(vector)
+{
+  var cad=new String();
+
+  for(x=0;x<vector.length;x++) 
+    cad=cad.concat(objToString(vector[x]));
+  
+  return cad; 
+}
+
+function cookieToDATOS(cad)
+{
+  var pos=1,inicio=1,fin;
+  var nombre, apellidos,dni,telefono,correo,sexo;
+
+  while (inicio<cad.length)
+  {
+    fin=cad.indexOf(',',inicio);
+    if (inicio<fin) nombre=cad.substring(inicio,fin) 
+    else nombre="";
+
+    inicio=fin+1;
+    fin=cad.indexOf(',',inicio);
+    if (inicio<fin) apellidos=cad.substring(inicio,fin) 
+    else apellidos="";
+
+    inicio=fin+1;
+    fin=cad.indexOf(',',inicio);
+    if (inicio<fin) dni=cad.substring(inicio,fin) 
+    else dni="";
+
+    inicio=fin+1;
+    fin=cad.indexOf(',',inicio);
+    if (inicio<fin) telefono=cad.substring(inicio,fin) 
+    else telefono="";
+
+    inicio=fin+1;
+    fin=cad.indexOf(',',inicio);
+    if (inicio<fin) correo=cad.substring(inicio,fin) 
+    else correo="";
+
+    inicio=fin+1;
+    fin=cad.indexOf('}',inicio);
+    if (inicio<fin) sexo=cad.substring(inicio,fin) 
+    else sexo="";
+
+alert("NOMBRE: "+ nombre+"APELLIDOS: "+ apellidos+"DNI: "+ dni+"SEXO: "+sexo);
+    objeto=new objFormulario(nombre,apellidos,dni,telefono,correo,sexo);
+  
+    DATOS.push(objeto);
+    inicio=fin+2;
+  }
+}
+
+
+function GuardaCookie()
+{
+   value = arrToString(DATOS);
+   alert("DATOS a string: "+value);
+
+   setCookie("DATOS",value,7);
+}
+
+function RecuperaCookie()
+{
+  borrarDATOS();
+
+  cookie=getCookie("DATOS");
+alert("Cookie recuperada: "+cookie);
+  cookieToDATOS(cookie);
+
+}
+
+
+function completo(campoform)
+{
+   valor = document.getElementById(campoform).value;
+   if (valor ==null || valor.length ==0)
+   {
+      alert("El campo '"+ campoform  +"' no puede ser vacío");
+      return false;
+   }
+   return true;
+}
+
+
+function validaRadio(v1,v2)
+{
+   if ((document.getElementById(v1).checked || document.getElementById(v2).checked)==false)
+   {
+      alert("El campo 'Sexo' no puede ser vacío");
+      return false;
+   }
+   return true;
+}
+
+
+function validaDNI(valdni)
+{
+  valor = document.getElementById(valdni).value;
+  var letras = ['T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E','T'];
+  
+  if (!(/^\d{8}[A-Z]$/.test(valor)))
+  {
+     alert("El dni introducido no es válido");
+     return false;
+  }
+
+  if (valor.charAt(8) != letras[(valor.substring(0,8))%23]) 
+  {
+     alert("La letra del dni no es correcta");
+     return false;
+  }
+
+  return true;
+}
+
+
+function validaTelefono(telf)
+{
+  valor = document.getElementById(telf).value;
+  if (!(/^\d{9}$/.test(valor)))
+  {
+     alert("El número de teléfono debe tener 9 dígitos");
+     return false;
+  }
+  return true;
+}
+
+
+function validaCorreo(correo)
+{
+  valor = document.getElementById(correo).value;
+  
+ 
+ if (! (/\w+([-\.]\w+)*@\w+([-\.]\w+)*\.\w+([-\.]\w+)*/.test(valor))  )
+  {
+    alert("El formato de la dirección de e-mail no es correcto");
+    return false;
+  }
+  return true;
+}
+
+
+function validar()
+{
+  if (!completo("nombre")) return false;
+    
+  if (!completo("apellidos")) return false;
+      
+  if (!completo("dni")) return false;
+        
+  if (!completo("telefono")) return false;
+          
+  if (!completo("correo")) return false;
+            
+ // if (!completo("foto")) return false;
+            
+  
+  if(!validaRadio("male","female")) return false;
+ 
+  if(!validaDNI("dni")) return false;
+      
+  if(!validaTelefono("telefono")) return false;
+
+  if(!validaCorreo("correo")) return false;
+        
+
+  return true;
+}
+
+
+
+</script>
+
+</head>
+<body>
+
+<p>Click on one of the text labels to toggle the related control:</p>
+
+<form name="form1" action="demo_form.asp" method="post" onsubmit="return validar();">
+
+  <label for="nombre">Nombre: </label>
+  <input type="text" name="nombre" id="nombre" value=""/><br>
+
+  <label for="apellidos">Apellidos: </label>
+  <input type="text" name="apellidos" id="apellidos" value=""/><br>
+
+  <label for="dni">DNI: </label>
+  <input type="text" name="dni" id="dni" value=""/><br>
+
+  <label for="telefono">Teléfono: </label>
+  <input type="text" name="telefono" id="telefono" value=""/><br>
+
+  <label for="correo">E-mail: </label>
+  <input type="text" name="correo" id="correo" value=""/><br>
+
+
+  <label for="male">Hombre</label>
+  <input type="radio" name="sexo" id="male" value="male"/><br>
+  <label for="female">Mujer</label>
+  <input type="radio" name="sexo" id="female" value="female"/><br><br>
+  
+  
+
+  <label for="publicidad">Quieres recibir publicidad: </label>
+  <input name="publicidad" id="publicidad" type="checkbox" value="publicidad" checked="checked" /><br><br><br>
+
+<input type="button" value="Guardar" onclick="guardarDatos(form1)" > 
+<input type="reset" name="limpiar" value="Limpiar campos"/>
+<input type="button" value="Eliminar datos de memoria" onclick="borrarDATOS();form1.reset();" > 
+<input type="button" value="Ver datos siguientes" onclick="siguiente(form1)" > 
+<input type="button" value="Ver datos anteriores" onclick="anterior(form1)" > 
+
+<br>
+<input type="button" value="Guardar datos en cookies" onclick="GuardaCookie()" >
+<input type="button" value="Recuperar datos de cookies" onclick="RecuperaCookie();posicion=1;anterior(form1)" >
+<input type="button" value="Borrar datos en cookies" onclick="borrarCookie('DATOS','',-1)" > 
+ 
+ 
+
+
+</form>
+
+</body>
+</html>

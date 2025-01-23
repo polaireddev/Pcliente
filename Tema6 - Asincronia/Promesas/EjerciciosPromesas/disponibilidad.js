@@ -9,6 +9,26 @@ const disponibiliad = document.getElementById("comprobar").addEventListener("cli
     
 });
 
+/*
+Eso de arriba puede causar problemas ya que si no carga el dom no hay nada por ello el enfoque mas adeacudo es este, comprobar q el dom se carga
+document.addEventListener("DOMContentLoaded", function() {
+    const botonComprobar = document.getElementById("comprobar");
+    if (botonComprobar) {
+        botonComprobar.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById("login").value;
+            gestionarPeticion("compruebaDisponibilidadJSON.php", name);
+        });
+    } else {
+        console.error('El elemento con ID "comprobar" no existe en el DOM.');
+    }
+});
+
+
+
+*/
+
 
 
     

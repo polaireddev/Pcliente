@@ -1,0 +1,38 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Día siguiente con setDate</title>
+
+
+<script type="text/javascript">
+
+
+function diasiguiente(fecha)
+{
+  return fecha.setDate(fecha.getDate(fecha)+1);
+}
+
+
+</script>
+</head>
+
+<body>
+<h1>Cálculo del día siguiente a una fecha dada</h1>
+
+<form action="demo_form.asp" method="get" name="datos">
+  Día: <input type="text" name="dia" id="dia"><br>
+  Mes: <input type="text" name="mes" id="mes"><br>
+  Año: <input type="text" name="anyo" id="anyo"><br>
+       <input type="button" value="pincha" onclick="var fecha=new Date(datos.anyo.value,datos.mes.value-1,datos.dia.value); 
+                                                    document.write('Has introducido la fecha: ' + fecha + '<br>');
+						    diasiguiente(fecha);
+						    document.write('El día siguiente: ' + fecha);">
+</form>
+
+
+</body>
+</html>
+

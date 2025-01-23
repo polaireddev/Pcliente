@@ -1,0 +1,79 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Día siguiente a mano</title>
+
+
+<script type="text/javascript">
+
+function diasiguiente(fecha)
+{
+
+  var dias=[31,28,31,30,31,30,31,31,30,31,30,31];
+
+  var bisiesto;
+
+  var dia=fecha.getDate();
+  var mes=fecha.getMonth();
+  var anyo=fecha.getFullYear();
+
+  if ((anyo % 4)!=0) bisiesto=false;
+  else
+  {
+    if ((anyo % 100)!=0) bisiesto=true;
+    else  
+    {
+      if ((anyo % 400)==0) bisiesto=true;
+      else bisiesto=false;
+    }	
+  }
+
+  if (bisiesto) dias[1]=29;
+
+  dia++;
+  if(dia>dias[mes]) 
+  {
+    dia=1;
+    mes++;
+    if(mes>11)
+    {
+      mes=0;
+      anyo++;
+    }
+  }
+
+  return fecha.setFullYear(anyo,mes,dia);
+
+}
+
+/*
+function diasiguiente(fecha)
+{
+  return fecha.setDate(fecha.getDate(fecha)+1);
+}
+*/
+
+</script>
+</head>
+
+<body>
+<h1>Cálculo del día siguiente a una fecha dada</h1>
+
+<form action="demo_form.asp" method="get" name="datos">
+  Día: <input type="text" name="dia" id="dia"><br>
+  Mes: <input type="text" name="mes" id="mes"><br>
+  Año: <input type="text" name="anyo" id="anyo"><br>
+       <input type="button" value="pincha" onclick="var fecha=new Date(datos.anyo.value,datos.mes.value-1,datos.dia.value); 
+                                                    document.write('Has introducido la fecha: ' + fecha + '<br>');
+						    diasiguiente(fecha);
+						    document.write('El día siguiente: ' + fecha);">
+</form>
+
+
+</body>
+</html>
+
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "UTF-8"/>
+</head>
+<body>
+
+<p>Click on one of the text labels to toggle the related control:</p>
+
+<form action="demo_form.asp" method="post">
+
+  <label for="nombre">Nombre: </label>
+  <input type="text" name="nombre" id="nombre" value=""/><br>
+
+  <label for="apellidos">Apellidos: </label>
+  <input type="text" name="apellidos" id="apellidos" value=""/><br>
+
+  <label for="dni">DNI: </label>
+  <input type="text" name="dni" id="dni" value=""/><br>
+
+  <label for="telefono">Teléfono: </label>
+  <input type="text" name="telefono" id="telefono" value=""/><br>
+
+  <label for="correo">E-mail: </label>
+  <input type="text" name="correo" id="correo" value=""/><br>
+
+
+  <label for="male">Hombre</label>
+  <input type="radio" name="sexo" id="male" value="male"/><br>
+  <label for="female">Mujer</label>
+  <input type="radio" name="sexo" id="female" value="female"/><br><br>
+  
+  <label for="foto">Tu foto: </label>
+  <input type="file" name="foto" id="foto" value=""/><br>
+
+  <label for="publicidad">Quieres recibir publicidad: </label>
+  <input name="publicidad" id="publicidad" type="checkbox" value="publicidad" checked="checked" /><br><br><br>
+
+<input type="submit" value="Enviar"> 
+<input type="reset" name="limpiar" value="Borrar los datos introducidos"/>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Información sobre eventos</title>
+
+
+
+<script type="text/javascript">
+function muestraInformacion(elEvento) 
+{
+      var evento = elEvento || window.event;
+ 
+      var codigo = evento.charCode;
+      var caracter = String.fromCharCode(codigo);      
+
+      document.getElementById("info").innerHTML= '<br>Código [' + codigo + ']' + '<br>Carácter [' + caracter + ']';
+}
+
+
+
+document.onkeypress = muestraInformacion;
+
+</script>
+</head>
+
+<body>
+<h1>TECLADO</h1>
+<p id="info"></p>
+</body>
+</html>
+
