@@ -2,66 +2,43 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { Fragment } from 'react'
+import { Fragment } from 'react';
+import Feo2 from "./Feo2.jsx";
 
-
-function Undiv(props){
+function Undiv(props) {
   return (
-    <div class='componente'>Estoy devolviendo sólo un div</div>
+    <div className='unaClase'>Estoy devolviendo sólo un div
+    {props.children}
+    </div>
   );
 }
 
 function App() {
-
+  const numero= 10;
+  console.log(numero);
   return (
     <>
+      <Undiv />
+      <Dosdivs />
+      <Feo2 titulo="Me llamo Feo2" subtitulo="Si funciona" nota="Sigamos">
 
-    <Undiv/>  
-  {/*tambien podria poner esto
-  <Undiv></Undiv>
-  */}
+        <Undiv>Texto de un Div</Undiv>
 
-<Dosdivs/>
-
-<Feo2 titulo= "Me llamo Feo2" subtitulo="Si funciona" nota= "Sigamos"/>
-{
-  /*Tambien equivale a esto 
-  <Feo2 titulo="Me llamo Feo2"></Feo2>*/
-}
-
-    
-
+      </Feo2>
+     
     </>
-  )
-}
-
-
-function Dosdivs(props){
-  return (
-  <Fragment>
-  <div>Estoy devolviendo el primer div</div>
-  <div>Y ahora elsegundo div</div>
-
-  </Fragment>
-  
-);
-}
-
-function Feo2(props) {
-  return (
-  <div className='componente'>
-  <h2>{props.titulo}</h2>
-  <div>{props.subtitulo}</div>
-  <div>{props.nota}</div>
-  </div>
   );
-  }
+}
+
+function Dosdivs() {
+  return (
+    <Fragment>
+      <div>Estoy devolviendo el primer div</div>
+      <div>Y ahora el segundo div</div>
+    </Fragment>
+  );
+}
 
 
 
-
-
-
-
-
-export default App
+export default App;
