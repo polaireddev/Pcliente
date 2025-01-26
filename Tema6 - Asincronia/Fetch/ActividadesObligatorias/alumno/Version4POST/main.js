@@ -19,7 +19,7 @@ function recogerDatos() {
         profesion
     };
 
-    return JSON.stringify(persona);
+    return JSON.stringify(persona); //lo devuelvo directamente, es mas eficiente
 }
 
 async function gesticionarPeticion(url, data) {
@@ -36,11 +36,13 @@ async function gesticionarPeticion(url, data) {
             throw new Error(`Archivo no encontrado o no tiene permisos ${response.status}`);
         }
 
-        const responseData = await response.text(); // Esperamos a que se resuelva la promesa
-        console.log(responseData);  // Mostramos la respuesta
+        const responseData = await response.text();
+        console.log(responseData);  
     } catch (error) {
-        console.log(`Se ha producido un error: ${error}`);  // Si algo falla, lo capturamos aquí
+        console.log(`Se ha producido un error: ${error}`); 
     }
 }
+
+//exactamente igual que antes solo necesito poner el tipo de contenido que voy a enviar, los await 
 
 

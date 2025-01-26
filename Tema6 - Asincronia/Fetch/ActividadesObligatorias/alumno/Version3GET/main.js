@@ -23,6 +23,8 @@ function recogerDatos() {
 }
 
 async function gesticionarPeticion(url) {
+
+    //envio la solicitud http 
     try {
         const response = await fetch(url)
 
@@ -30,10 +32,11 @@ async function gesticionarPeticion(url) {
             throw new Error(`Archivo no encontrado o no tiene permisos ${response.status}`);
         }
 
-        const responseData = await response.text(); // Esperamos a que se resuelva la promesa
+        //obtemeos el cuerpo de la respuesta
+        const responseData = await response.text(); // Esperando a la promesa
         console.log(responseData);  // Mostramos la respuesta
     } catch (error) {
-        console.log(`Se ha producido un error: ${error}`);  // Si algo falla, lo capturamos aquí
+        console.log(`Se ha producido un error: ${error}`);  
     }
 }
 

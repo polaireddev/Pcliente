@@ -1,5 +1,8 @@
 document.getElementById("personaForm").addEventListener("submit", e =>{
     e.preventDefault();
+
+
+    // lo pongo aqui asi se convierte en reutilizable para otras url
     const persona = recogerDatos();
     const url = `guardarPersonas.php`
     const data = `persona= ${encodeURIComponent(persona)}`;
