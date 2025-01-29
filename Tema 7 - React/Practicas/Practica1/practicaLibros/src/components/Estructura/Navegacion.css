@@ -16,16 +16,20 @@
 }
 
 .menu__link {
+    transition: background-color 0.4s ease-in;
     padding: 5px 10px;
-    color: var(--primary-color);
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+   
 }
 
 .menu__link:hover {
     background-color: var(--primary-color);
     color: var(--menu-color);
+    border-radius: 5px;
+    padding: 5px 10px;
+
 }
+
 
 
 /* Media queries */

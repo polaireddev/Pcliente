@@ -9,22 +9,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid black;
-
-
-
-    
 }
 
 .lista__container-libro{
     box-sizing: border-box;
     width: 100%;
-    
-    border: 1px solid red;
+    gap: 5px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-    flex-direction: row;
+
+}
 
 
+
+
+/* Media queries */
+
+@media (max-width: 600px) {
+    .cabecera { text-align: center; }
+    .lista__container-libro {
+        flex-direction: column; /* Cambia la dirección a columna */
+        align-items: center; /* Centra los elementos en la columna */
+    }
 }
