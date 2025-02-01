@@ -1,14 +1,13 @@
 import React, {Fragment} from "react";
 import ListadoLibros from "../ListadoLibros";
 import "./Contenido.css";
+import Rutas from "./Rutas";
 
 const Contenido =()=>{
     return (
         <Fragment>
             <main className="main">
-                <ListadoLibros>
-
-                </ListadoLibros>
+                <Rutas/>
             </main>
 
 

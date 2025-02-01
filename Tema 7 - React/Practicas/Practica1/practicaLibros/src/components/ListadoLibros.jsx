@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import biblioteca from "../assets/database/biblioteca.json";
 import Libro from "../components/Libro.jsx";
 import "./ListadoLibros.css";
+import { Link } from "react-router-dom";
 
 const ListadoLibros = () => {
     return (
@@ -10,13 +11,12 @@ const ListadoLibros = () => {
                 <div className="lista__container-libro">
                     {/*comprobar que es un array */}
                     {Array.isArray(biblioteca.libros) && biblioteca.libros.length
-                        ? biblioteca.libros.map((libroDatos) => {
-                            {
-                                /*recorro el array si contien algo */
-                            }
+                        ? biblioteca.libros.map((libroDatos) => {{/*recorro el array si contien algo */}
                             return (
+
+                                <Link key={libroDatos.id}  to= "./mostrar" className="listado_libro">
                                 <Libro
-                                    key={libroDatos.id}
+            
                                     libro={libroDatos}
 
                                 /*id={libro.id}
@@ -24,6 +24,8 @@ const ListadoLibros = () => {
                                         autor={libro.autor}
                                         portada={libro.portada} */
                                 ></Libro>
+                                </Link>
+                            
                             );
                         })
                         : "No se han encontrado libros"}
