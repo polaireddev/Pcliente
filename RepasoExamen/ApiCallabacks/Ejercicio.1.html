@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function gestionarPeticion(url, gestionarRespuesta) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    console.log(xhr.status);
+                    gestionarRespuesta(xhr)
+                } else {
+                    console.log("Error" + xhr.status + xhr.statusText + "error en la respuesta ")
+                }
+
+            }
+            xhr.onerror = () => {
+                console.log("Error de red o con la solcidtu d")
+
+            }
+
+            xhr.send();
+        }
+
+
+        function gestionarRespuesta(xhr) {
+
+            try {
+                const respuesta = JSON.parse(xhr.responseText);
+                let encontrado= false;
+
+                respuesta.forEach(persona => {
+                    if (persona.username == "Kamren") {
+                        console.log(persona)
+                        encontrado= true;
+                    } 
+
+                });
+
+                if(!encontrado){
+                    console.log("No se ha encontrado nada")
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+
+
+        }
+
+
+        gestionarPeticion("https://jsonplaceholder.typicode.com/users", gestionarRespuesta)
+    </script>
+</body>
+
+</html>

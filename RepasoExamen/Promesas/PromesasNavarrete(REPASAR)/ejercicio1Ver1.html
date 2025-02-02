@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumo de API con Promesas</title>
+</head>
+<body>
+    <script>
+        // Función que devuelve una promesa para obtener datos de una API
+        function getDataFromAPI(url, callback) {
+            const miPromesa = new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true); // Solicitud asíncrona
+                xhr.onload = () => {
+                    if (xhr.status === 200) {
+                        resolve(xhr.responseText); // Resuelve la promesa con la respuesta
+                    } else {
+                        reject(`Error ${xhr.status}: ${xhr.statusText}`); // Rechaza la promesa con un mensaje de error
+                    }
+                };
+                xhr.onerror = () => {
+                    reject(`Error de red: ${xhr.statusText}`); // Rechaza la promesa en caso de error de red
+                };
+                xhr.send();
+            });
+
+            // Aquí usas .then y .catch directamente sobre la promesa miPromesa
+            miPromesa
+                .then((respuesta) => {
+                    callback(respuesta);
+                    let datos = JSON.parse(respuesta);
+                    for (let i in datos) {
+                        if (datos[i].username == "Kamren") console.log(datos[i]);
+                    }
+                })
+                .catch((mensajeError) => {
+                    console.log(mensajeError);
+                });
+        }
+
+        // Función de callback para procesar la respuesta
+        function procesarRespuesta(respuesta) {
+            console.log("Respuesta recibida:", respuesta);
+        }
+
+        // Llamada a la función con la URL y el callback
+        const apiUrl = "https://jsonplaceholder.typicode.com/users";
+        getDataFromAPI(apiUrl, procesarRespuesta);
+    </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <button id="mostrarTabla">Muestra el archivo JSON en forma de tabla</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Club</th>
+            </tr>
+        </thead>
+        <tbody id="tabla"></tbody>
+    </table>
+
+    <script>
+        document.getElementById("mostrarTabla").addEventListener("click", e=>{
+            e.preventDefault();
+            gestionarPeticion("Tabla.json")
+        })
+
+        async function  gestionarPeticion(url) {
+
+            try {
+
+
+                const respuesta = await fetch(url);
+
+            if(!respuesta.ok){
+                console.log("ERROR EN LA RESPUESTA");
+            }else console.log("Exito en la respuesta")
+
+            const respuestaDato = await respuesta.text();
+            const jsonDato = JSON.parse(respuestaDato);
+
+            const div = document.getElementById("tabla");
+            tabla.innerHTML= "";
+            console.log(jsonDato)
+            
+            jsonDato.forEach(dato =>{
+                let fila = document.createElement("tr"); 
+                let dato1 = document.createElement("td"); 
+                let dato2 = document.createElement("td"); 
+                let dato3 = document.createElement("td"); 
+                let dato4 = document.createElement("td"); 
+
+                dato1.innerHTML= dato.codigo;
+                dato2.innerHTML= dato.nombre;
+                dato3.innerHTML= dato.edad;
+                dato4.innerHTML= dato.club;
+
+                fila.appendChild(dato1);
+                fila.appendChild(dato2);
+                fila.appendChild(dato3);
+                fila.appendChild(dato4);
+
+                tabla.appendChild(fila);
+               
+
+
+            })
+                
+            } catch (e) {
+                console.log("Error" + e)
+                
+            }
+
+            
+
+            
+
+
+            
+        }
+    
+    </script>
+</body>
+
+</html>
+

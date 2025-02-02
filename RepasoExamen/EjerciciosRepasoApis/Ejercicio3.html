@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function gestionarPeticion(url, gestionarRespuesta){
+            const xhr= new XMLHttpRequest();
+            xhr.open("GET", url);
+            xhr.onload=()=>{
+                if(xhr.status===200){
+                    console.log("Exito en la respuesta");
+                    gestionarRespuesta(xhr);
+
+                }else{
+                    console.log("Error en la respuesta" + xhr.status);
+
+                }
+            }
+
+            xhr.onerror=()=>{
+                console.log("Error en la peticion" + xhr.status);
+            }
+            xhr.send();
+            
+        }
+
+        function gestionarRespuesta(xhr){
+            try {
+                const respuesta= JSON.parse(xhr.responseText);
+                console.log(respuesta)
+                const respuestaValue= respuesta.value;
+                console.log(respuesta.value)
+                
+            } catch (error) {
+                console.log("Error" + error)
+                
+            }
+         
+            
+        }
+
+
+        gestionarPeticion("https://api.chucknorris.io/jokes/random?category=music", gestionarRespuesta)
+
+
+
+
+    </script>
+</body>
+</html>

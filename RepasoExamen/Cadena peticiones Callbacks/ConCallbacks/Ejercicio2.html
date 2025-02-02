@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+     <!-- Este es el div donde se mostrará la imagen -->
+     <div id="imagen"></div>
+    <script>
+        function gestionarPeticion(url, callback){
+            const xhr = new XMLHttpRequest()
+            xhr.open("GET", url)
+
+            xhr.onload=()=>{
+                if(xhr.status===200){
+                    console.log(xhr.status);
+                    callback(xhr);
+                }else console.log("Error en la respuesta "+ xhr.status)
+            }
+
+            xhr.onerror=()=>{
+                console.log("Error en la peticion")
+            }
+
+            xhr.send();
+        }
+
+        let album = "";
+       
+
+        function gestionarRespuesta(xhr){
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta)
+          respuesta.forEach(objeto=>{
+            if(objeto.title=="quos omnis officia"){
+                album= objeto;
+            }
+          })
+        
+
+    
+          console.log(respuesta)
+          console.log(album)
+          console.log("Soy el titulo del album de la primera peticion" +album.title)
+          console.log("UserId de la primera peticion" + album.userId)
+
+          gestionarPeticion("https://dummyjson.com/users", gestionarRespuestaUsers)
+
+
+        }
+
+
+let userEncontrado= "";
+        function gestionarRespuestaUsers(xhr){
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta)
+            respuesta.users.forEach(user=>{
+                if(user.id ==album.userId){
+                    userEncontrado= user;
+                    
+                }
+            })
+
+            console.log("Soy el de la segunda peticion ID "+ userEncontrado.id);
+            console.log( "Soy el de la segunda peticion EDAD "+userEncontrado.age)
+
+            gestionarPeticion("https://jsonplaceholder.typicode.com/photos", gestionarRespuestaPhotos)
+        }
+
+let objetoPhoto="";
+        function gestionarRespuestaPhotos(xhr){
+            const response= JSON.parse(xhr.responseText);
+            console.log("hola 3era peticion")
+            console.log(response)
+            response.forEach(objeto=>{
+                if(objeto.id==userEncontrado.age){
+                    objetoPhoto= objeto
+                }
+            })
+          
+            console.log(objetoPhoto);
+            console.log(objetoPhoto.url)
+
+            const imagenDiv = document.getElementById("imagen"); // Aquí usamos el div con el id "imagen"
+                const img = document.createElement("img");
+                img.src = objetoPhoto.url;
+                img.alt = "Imagen de usuario";
+                imagenDiv.appendChild(img); 
+
+            
+        }
+
+
+
+
+
+
+
+
+
+
+        gestionarPeticion("https://jsonplaceholder.typicode.com/albums", gestionarRespuesta)
+
+       
+    
+    
+    </script>
+</body>
+</html>

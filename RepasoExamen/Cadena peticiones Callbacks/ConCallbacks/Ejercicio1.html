@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function gestionarPeticion(url, gestionarRespuesta){
+            const xhr = new XMLHttpRequest()
+            xhr.open("GET", url)
+
+            xhr.onload=()=>{
+                if(xhr.status===200){
+                    console.log(xhr.status);
+                    gestionarRespuesta(xhr);
+                }else{"Error en la respuesta "+ xhr.status}
+            }
+
+            xhr.onerror=()=>{
+                console.log("Error en la peticion")
+            }
+
+            xhr.send();
+        }
+
+        let album = "";
+        let userId= "";
+
+        function gestionarRespuesta(xhr){
+            const respuesta = JSON.parse(xhr.responseText);
+          respuesta.forEach(objeto=>{
+            if(objeto.title=="quos omnis officia"){
+                album= objeto;
+            }
+          })
+        
+          console.log(respuesta)
+          console.log(album)
+          console.log(album.title)
+          console.log("UserId " + album.userId)
+
+
+        }
+
+
+
+
+        gestionarPeticion("https://jsonplaceholder.typicode.com/albums", gestionarRespuesta)
+      
+       
+    </script>
+</body>
+</html>

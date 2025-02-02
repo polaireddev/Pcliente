@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    
+        <button id="mostrarTexto">Muestra el archivo de texto</button>
+        <div id="contenido"></div>
+        <div id="contenido1"></div>
+
+    
+ 
+
+    <script>
+        document.getElementById("mostrarTexto").addEventListener("click", e=>{
+            e.preventDefault();
+
+            gestionarPeticion("texto.txt")
+
+            
+        })
+
+        function gestionarPeticion(url){
+
+            fetch(url)
+
+            .then(respuesta =>{
+                if(!respuesta.ok){
+                    console.log("ERROR EN LA RESPUESTA")
+                }
+
+                console.log("EXITO EN LA RESPUESTA");
+                return respuesta.text();
+                
+            })
+
+            .then(data =>{
+                const datos = data;
+                console.log(datos);
+                let div = document.getElementById("contenido");
+                div.innerHTML= datos;
+              
+            })
+            .catch(e=>{
+                console.log("error "+ e);
+            })
+
+
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>

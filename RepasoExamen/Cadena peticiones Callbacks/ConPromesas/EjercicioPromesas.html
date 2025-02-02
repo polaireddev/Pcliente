@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <!-- Este es el div donde se mostrará la imagen -->
+     <div id="imagen"></div>
+    <script>
+        
+    
+
+        let objetoAlbum= "";
+        let objetoUser= "";
+
+        function gestionarPeticion(url){
+            return new Promise((resolve, reject)=>{
+                const xhr = new XMLHttpRequest();
+                xhr.open("GET", url);
+                xhr.onload=()=>{
+                    if(xhr.status===200){
+                        console.log("Exito")
+                        resolve(xhr.responseText);
+                    }else{
+                        console.log("Fracaso")
+                        reject("ERROR EN LA RESPUESTA")
+                    }
+                }
+                xhr.onerror=()=>{
+                reject("ERROR EN LA PETICION")
+            }
+            xhr.send();
+            })
+
+            
+
+        }
+
+        gestionarPeticion("https://jsonplaceholder.typicode.com/albums")
+        .then (data =>{
+            let datos = JSON.parse(data);
+            datos.forEach(element => {
+                if(element.title=="quos omnis officia"){
+                    objetoAlbum= element;;
+                   
+                   
+                }
+                
+                
+            });
+            if (objetoAlbum) {
+                return gestionarPeticion("https://dummyjson.com/users");
+            }
+
+          
+        })
+
+        .then(data =>{
+            let datos = JSON.parse(data);
+            datos.users.forEach(element => {
+                if(element.id==objetoAlbum.userId){
+                    objetoUser= element;
+                    
+                }
+               
+            });
+            if (objetoUser) {
+                return gestionarPeticion("https://jsonplaceholder.typicode.com/photos");
+            }
+
+        })
+
+        .then(data =>{
+            let datos = JSON.parse(data);
+            datos.forEach(element => {
+                if(element.id==objetoUser.age){
+                    console.log(element);
+                    dato= `<img src= ${element.url}>`;
+                    document.getElementById("imagen").innerHTML= dato;
+                    
+                }
+                
+            });
+
+        })
+        .catch(e=>{
+            console.log(e);
+        })
+        
+
+    </script>
+</body>
+</html>

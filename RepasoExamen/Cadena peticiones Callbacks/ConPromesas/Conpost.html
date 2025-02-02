@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+     <!-- Este es el div donde se mostrará la imagen -->
+     <div id="imagen"></div>
+
+    <script>
+        // Función para gestionar la petición con POST
+        function gestionarPeticion(url, data) {
+            return new Promise((resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", url);  // Método POST (asegúrate de escribir POST en mayúsculas)
+
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");  // Definimos el tipo de contenido
+
+                xhr.onload = () => {
+                    if (xhr.status == 200 || xhr.status == 201) {
+                        resolve(xhr.responseText);  // Si todo sale bien, resolvemos la promesa con la respuesta
+                    } else {
+                        reject("Error en la respuesta: " + xhr.status);  // Si algo falla, rechazamos con el código de estado
+                    }
+                };
+
+                xhr.onerror = () => {
+                    reject("ERROR EN LA PETICIÓN");  // Si ocurre un error en la solicitud, rechazamos
+                };
+
+                xhr.send(data);  // Enviamos los datos (ya deberían estar codificados)
+            });
+        }
+
+        let objetoAlbum = "";
+        let objetoUser = "";
+
+        // 1️⃣ Primera petición: Obtener álbumes
+        gestionarPeticion("https://jsonplaceholder.typicode.com/albums", null)
+        .then(data => {
+            let datos = JSON.parse(data);
+            objetoAlbum = datos.find(element => element.title === "quos omnis officia");
+            if (!objetoAlbum) throw "No se encontró el álbum";
+            console.log("Álbum encontrado:", objetoAlbum);
+
+            // 2️⃣ Segunda petición: Obtener usuarios (podemos enviar datos en formato URL encoded si fuera necesario)
+            const dataUsuarios = `userId=${objetoAlbum.userId}`;  // Codificamos los datos para enviar en POST
+            return gestionarPeticion("https://dummyjson.com/users", dataUsuarios);  // Enviamos datos con POST
+        })
+        .then(data => {
+            let datos = JSON.parse(data);
+            objetoUser = datos.users.find(element => element.id === objetoAlbum.userId);
+            if (!objetoUser) throw "No se encontró el usuario";
+            console.log("Usuario encontrado:", objetoUser);
+
+            // 3️⃣ Tercera petición: Obtener fotos (podríamos enviar un parámetro en POST)
+            const dataFotos = `userAge=${objetoUser.age}`;  // Codificamos los datos para la siguiente petición
+            return gestionarPeticion("https://jsonplaceholder.typicode.com/photos", dataFotos);  // Enviamos datos con POST
+        })
+        .then(data => {
+            let datos = JSON.parse(data);
+            let objetoPhoto = datos.find(element => element.id === objetoUser.age);
+            if (!objetoPhoto) throw "No se encontró la foto";
+            console.log("Foto encontrada:", objetoPhoto);
+
+            // 4️⃣ Mostrar imagen en el div con id="imagen"
+            let dato = `<img src="${objetoPhoto.url}" alt="Imagen encontrada">`;
+            document.getElementById("imagen").innerHTML = dato;
+        })
+        .catch(e => {
+            console.error("Error:", e);
+        });
+
+    </script>
+</body>
+</html>
